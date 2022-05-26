@@ -32,14 +32,18 @@ def process():
 	
 	# Top texts similar to 'pressbook-black-heat_djvu'
 	comparison_target = 'pressbook-black-heat'
+	
+	
 	print('TOP 5 TEXTS THAT ARE MOST SIMILAR TO ' + comparison_target + ":")
 	top5_euclidean = euclidean_distances.nsmallest(6, comparison_target)[comparison_target][1:]
+	print(top5_euclidean)
 	print(metadata.loc[top5_euclidean.index, ['title','creator','year']])
 	print('\n**********\n')
 	
 	# Cosine Distances
 	print("COSINE DISTANCES")
 	cosine_distances = pd.DataFrame(squareform(pdist(wordcounts, metric='cosine')), index=filekeys, columns=filekeys)
+	print(cosine_distances)
 
 	print('TOP 5 TEXTS THAT ARE MOST SIMILAR TO ' + comparison_target + ":")
 	top5_cosine = cosine_distances.nsmallest(6, comparison_target)[comparison_target][1:]
