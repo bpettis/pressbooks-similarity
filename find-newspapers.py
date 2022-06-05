@@ -35,7 +35,7 @@ def findNewspapers(pressbooks):
 
 
 def formQuery(yearOne, yearTwo):
-	query = 'https://chroniclingamerica.loc.gov/search/pages/results?' + 'year1=' + str(yearOne) + '&year2=' + str(yearTwo) + '&format=json'
+	query = 'https://chroniclingamerica.loc.gov/search/pages/results?' + 'year1=' + str(yearOne) + '&year2=' + str(yearTwo) + '&format=json' + '&language=eng'
 	return query
 	
 def makeQuery(query):
