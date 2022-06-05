@@ -44,7 +44,7 @@ def findNewspapers(pressbooks):
 				# print(page['ocr_eng'])
 				
 				# write the OCR data into a .txt file
-				cleanID = page['id'].replace('/','-')[1:-1] # The LOC identifiers include slashes, so we replace those to avoid problems. We also chop off the leading and trailing characters (which would just be a '/' or '-')
+				cleanID = page['id'].replace('/','_')[1:-1] # The LOC identifiers include slashes, so we replace those to avoid problems. We also chop off the leading and trailing characters (which would just be a '/' or '-')
 				filename = outputDirectory + '/' + i.item_metadata['metadata']['identifier'] + '/' + cleanID + '.txt'
 				with open(filename, 'w') as f:
 					try:
