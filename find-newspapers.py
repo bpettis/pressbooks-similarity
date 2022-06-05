@@ -9,7 +9,7 @@ import internetarchive, json, requests
 
 listName = 'pressbook-search-list.txt' # Specify the file that contains IA identifiers
 yearRange = 5 # Specify how many years after the Pressbook date we should search within
-
+outputDirectory = 'find-newspapers-tmp/'
 
 def findNewspapers(pressbooks):
 	for item in pressbooks:
@@ -19,6 +19,7 @@ def findNewspapers(pressbooks):
 			print(i.item_metadata['metadata']['title'] + ' : ' + i.item_metadata['metadata']['creator'])
 			print(i.item_metadata['metadata']['identifier-access'])
 			print('')
+			download(i.item_metadata['metadata']['identifier'])
 			yearOne = int(i.item_metadata['metadata']['year'])
 			yearTwo = int(i.item_metadata['metadata']['year']) + yearRange
 			print(f'Searching LOC Chronicling America for newspapers from {yearOne} to {yearTwo}')
@@ -30,7 +31,12 @@ def findNewspapers(pressbooks):
 				print(page['id'])
 				# print(page['url'])
 				# print(page['ocr_eng'])
-			
+				
+				# write the OCR data into a .txt file
+				cleanID = page['id'].replace('/','-')[1:-1] # The LOC identifiers include slashes, so we replace those to avoid problems. We also chop off the leading and trailing characters (which would just be a '/' or '-')
+				filename = outputDirectory + '/' + i.item_metadata['metadata']['identifier'] + '/' + cleanID + '.txt'
+				with open(filename, 'w') as f:
+					f.write(page['ocr_eng'])
 			
 
 
@@ -52,6 +58,9 @@ def importList():
 	pressbooksList = data.split("\n")
 	print('Loaded ' + str(len(pressbooksList)) + ' items as a list')
 	return pressbooksList
+	
+def download(identifier):
+	internetarchive.download(identifier, verbose=True, glob_pattern="*txt", no_directory=False, destdir=outputDirectory)
 
 if __name__ == "__main__":
 	pressbooks = importList()
