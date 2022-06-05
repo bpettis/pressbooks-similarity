@@ -69,6 +69,7 @@ def textSimilarity(identifier):
 	print("\n\nEUCLIDEAN DISTANCES\n*******************")
 	euclidean_distances = pd.DataFrame(squareform(pdist(wordcounts)), index=filekeys, columns=filekeys)
 	print(euclidean_distances)
+	euclidean_distances.to_csv(outputDirectory + '/' + identifier + '/euclidean.csv')
 	print('\n\n')
 	print('TOP 5 TEXTS THAT ARE MOST SIMILAR TO ' + comparison_target + ":")
 	top5_euclidean = euclidean_distances.nsmallest(6, comparison_target)[comparison_target][1:]
@@ -80,7 +81,8 @@ def textSimilarity(identifier):
 	print("\n\nCOSINE DISTANCES\n***************")
 	cosine_distances = pd.DataFrame(squareform(pdist(wordcounts, metric='cosine')), index=filekeys, columns=filekeys)
 	print(cosine_distances)
-
+	cosine_distances.to_csv(outputDirectory + '/' + identifier + '/cosine.csv')
+	print('\n\n')
 	print('TOP 5 TEXTS THAT ARE MOST SIMILAR TO ' + comparison_target + ":")
 	top5_cosine = cosine_distances.nsmallest(6, comparison_target)[comparison_target][1:]
 	print(top5_cosine)
