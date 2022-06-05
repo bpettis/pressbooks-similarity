@@ -1,3 +1,8 @@
+# This script will read a bunch of .txt files from a directory and compute the textual similarity of each file compared to every other file in the same directory
+# The script will display the euclidean and cosine distances
+# It will also read from a CSV file to list titles in the similarity comparison(s)
+# You should run mhdl-download.py before running this script.
+
 # Heavily drawing on the tutorial here: https://programminghistorian.org/en/lessons/common-similarity-measures#installation-and-setup
 
 import glob

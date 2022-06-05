@@ -1,3 +1,8 @@
+# This script will search the Internet Archive collection for anything where the 'Format' field is set as pressbook
+# Then, it will attempt to download the associated .txt file for each item
+# These will all be saved into a directory named 'mhdl-pressbooks'
+# The script will also create a CSV file with some basic metadata about each downloaded item
+
 import internetarchive
 import csv
 
