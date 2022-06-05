@@ -47,7 +47,13 @@ def findNewspapers(pressbooks):
 				cleanID = page['id'].replace('/','-')[1:-1] # The LOC identifiers include slashes, so we replace those to avoid problems. We also chop off the leading and trailing characters (which would just be a '/' or '-')
 				filename = outputDirectory + '/' + i.item_metadata['metadata']['identifier'] + '/' + cleanID + '.txt'
 				with open(filename, 'w') as f:
-					f.write(page['ocr_eng'])
+					try:
+						f.write(page['ocr_eng'])
+					except KeyError:
+						print('Error saving OCR to file - [ocr_eng] does not exist')
+					except:
+						print('Something went wrong saving OCR to file')
+						
 			print('Downloaded some files to work with!')
 			textSimilarity(i.item_metadata['metadata']['identifier'])
 			
