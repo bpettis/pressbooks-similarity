@@ -16,13 +16,20 @@ def findNewspapers(pressbooks):
 		print(f'Now searching for {item}...\n')
 		for i in internetarchive.search_items('identifier:' + item).iter_as_items():
 			print(i.item_metadata['metadata']['identifier'] + ' : ' + i.item_metadata['metadata']['year'])
+			print(i.item_metadata['metadata']['title'] + ' : ' + i.item_metadata['metadata']['creator'])
+			print(i.item_metadata['metadata']['identifier-access'])
 			print('')
 			yearOne = int(i.item_metadata['metadata']['year'])
 			yearTwo = int(i.item_metadata['metadata']['year']) + yearRange
 			print(f'Searching LOC Chronicling America for newspapers from {yearOne} to {yearTwo}')
 			
 			newspapers = makeQuery(formQuery(yearOne, yearTwo))
-			print('Found ' + str(newspapers['totalItems']) ' pages')
+			print('Found ' + str(newspapers['totalItems']) + ' newspaper pages')
+			print('(Only working with first page of results for now)')
+			for page in newspapers['items']:
+				print(page['id'])
+				# print(page['url'])
+				# print(page['ocr_eng'])
 			
 			
 
