@@ -26,11 +26,18 @@ def findNewspapers(pressbooks):
 			download(i.item_metadata['metadata']['identifier'])
 			yearOne = int(i.item_metadata['metadata']['year'])
 			yearTwo = int(i.item_metadata['metadata']['year']) + yearRange
+			
 			print(f'Searching LOC Chronicling America for newspapers from {yearOne} to {yearTwo}')
 			
 			newspapers = makeQuery(formQuery(yearOne, yearTwo))
 			print('Found ' + str(newspapers['totalItems']) + ' newspaper pages')
+			if(newspapers['totalItems'] == 0):
+				print('Skipping to next Pressbook!\n')
+				break
+			
+			
 			print('(Only working with first page of results for now)')
+			
 			for page in newspapers['items']:
 				print(page['id'])
 				# print(page['url'])
@@ -82,7 +89,7 @@ def textSimilarity(identifier):
 	
 
 def formQuery(yearOne, yearTwo):
-	query = 'https://chroniclingamerica.loc.gov/search/pages/results?' + 'year1=' + str(yearOne) + '&year2=' + str(yearTwo) + '&format=json' + '&language=eng'
+	query = 'https://chroniclingamerica.loc.gov/search/pages/results?' + 'dateFilterType=yearRange' + '&date1=' + str(yearOne) + '&date2=' + str(yearTwo) + '&format=json' + '&language=eng'
 	return query
 	
 def makeQuery(query):
