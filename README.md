@@ -161,3 +161,127 @@ pressbook-col-the-black-arrow                The Black Arrow (Columbia Pictures 
 pressbook-blacula                            Blacula (American International Pictures Press...  American International Pictures  1972
 pressbook-col-dead-heat-on-a-merry-go-round  Dead Heat on a Merry-Go-Round (Columbia Pictur...                Columbia Pictures  1966
 ```
+
+
+---
+
+# find-newspapers
+
+This is more of an all-in-one script that begins to do some basic comparisons with actual data from the LOC collection. It will read a list of Pressbooks (formatted as Internet Archive identifiers) and use those to search Chronicling America for newspaper pages that were published just a few years after the Pressbook. Next, it does cosine and euclidean similarity measurements for the text files and saves this data to CSV files.
+
+*note* Currently, the script _only_ works with the first page of LOC results - meaning that it's only comparing ~20 newspaper pages, and is nowhere near comprehensive. Many queries have hundreds of thousands of pages, so this is mainly just a proof of concept of the workflow that will be necessary. We'll need to make this as efficient as possible and then distribute the workload
+
+*note #2* The script is just using the raw OCR text from the MHDL and LOC. The quality of the results can likely be improved by doing some basic OCR normalization and incorporating fuzzy matching. For example things for us to consider:
+- we need to deal with line breaks
+- hyphenation (over line breaks) is also a problem. Words that match may not be recognized depending on how the newspaper layout wrapped the text
+- We should probably omit the last page of text from the Pressbook - since this is generally the "acknowledgements" page that is added in
+
+
+## Input Lists
+Currently, I'm using a file named `pressbook-search-list.txt` to list IA identifiers. I'm only running this with a small handful of Pressbooks for now.
+
+## Query range
+THe script has a line to specify how many years beyond the Pressbook publication to search for. I set it for 5, but that could (should) be finetuned to a likely range that newspapers might still be writing anything about a given film.
+
+
+### But does it work?
+
+Based on my initial testing, this seems to be a good starting workflow. And, I think it's going to work for what we want to do. In my initial testing, I was seeing _very_ dissimila r texts. For the cosine distance (which ranges from 0-1), I would often see a comparison around 0.8, meaning that the newspaper pages were not similar to the pressbook at all. 
+
+But one Pressbook [pressbook-col-the-flying-missile]('https://archive.org/details/pressbook-col-the-flying-missile') returned some slightly lower scores.
+
+```
+TOP 5 TEXTS THAT ARE MOST SIMILAR TO pressbook-col-the-flying-missile_djvu:
+lccn_sn91069201_1950-02-04_ed-1_seq-7    0.521970
+lccn_sn91069201_1950-02-04_ed-1_seq-8    0.526317
+lccn_sn91069201_1950-02-11_ed-1_seq-7    0.561699
+lccn_sn91069201_1950-02-11_ed-1_seq-5    0.603617
+lccn_sn91069201_1950-02-11_ed-1_seq-6    0.610945
+Name: pressbook-col-the-flying-missile_djvu, dtype: float64
+(Ranges from 0 - 1. Lower score is more similar)
+```
+
+Here are the contents of `lccn_sn91069201_1950-02-04_ed-1_seq-7`:
+```
+THE OFFICIAL HOLY YEAR PRAYER
+The prayer composed by Pope Pius XII for the Holy Year
+1950, translated into English and printed in convenient leaflet
+form (3x5^4 inches) for insertion into missal or prayer book.
+Suitable for congregational recitation. With notation of condi
+tions for indulgences, and the Imprimatur of His Excellency,
+the Most Rev. Archbishop Murray.
+Single copies 5 cents.
+10 to 99 copies 1 cent each.
+100 to 499 copies cent each.
+500 or more ife cent each.
+WANDERER PRINTING COMPANY
+128 East Tenth Street, ST. PAUL 1, MINNESOTA
+```
+
+Obviously not a correct match at all, *but* this segment is somewhat simialar to a section of the Pressbook (p4) describing materials that exhibitors can order:
+
+```
+SHOW AIDS 
+
+
+STORY: * storvinec 
+
+
+" tures (stills and 
+
+
+Invite to your opening night 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+captions) is available for 
+newspaper reproduction. If 
+your paper will cooperate, 
+write Publicity Dept., Room 
+901, Columbia Pictures 
+Corp., 729 7th Ave., N. Y. 19. 
+The material will be mailed 
+to the paper and your thea- 
+tre will be mentioned. 
+
+
+STILLS , Available from 
+
+
+National 
+Screen: 1) set of 25 flat stills; 
+2) set of 25 uprights; 3) art 
+set of 8 (key art from the ads 
+
+
+and posters); 4) publicity- 
+
+
+exploitation set (stills used 
+
+
+
+
+
+in scenes and exploitation). 
+```
+
+
+FYI - the `_` characters can be replaced back with `/` to form URLs to access the page online:
+
+`lccn_sn91069201_1950-02-04_ed-1_seq-7` -> `/lccn/sn91069201/1950/02/04/ed/1/seq/7` -> [https://chroniclingamerica.loc.gov/lccn/sn91069201/1950-02-04/ed-1/seq-7/]('https://chroniclingamerica.loc.gov/lccn/sn91069201/1950-02-04/ed-1/seq-7/')
+
+And then the IA identifiers can be converted back into URLs just as easily:
+
+`pressbook-col-the-flying-missile` -> [https://archive.org/details/pressbook-col-the-flying-missile]('https://archive.org/details/pressbook-col-the-flying-missile')
