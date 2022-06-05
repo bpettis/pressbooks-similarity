@@ -186,9 +186,9 @@ THe script has a line to specify how many years beyond the Pressbook publication
 
 ### But does it work?
 
-Based on my initial testing, this seems to be a good starting workflow. And, I think it's going to work for what we want to do. In my initial testing, I was seeing _very_ dissimila r texts. For the cosine distance (which ranges from 0-1), I would often see a comparison around 0.8, meaning that the newspaper pages were not similar to the pressbook at all. 
+Based on my initial testing, this seems to be a good starting workflow. And, I think it's going to work for what we want to do. In my initial testing, I was seeing _very_ dissimilar texts. For the cosine distance (which ranges from 0-1), I would often see a comparison around 0.8, meaning that the newspaper pages were not similar to the pressbook at all. 
 
-But one Pressbook [pressbook-col-the-flying-missile]('https://archive.org/details/pressbook-col-the-flying-missile') returned some slightly lower scores.
+But one Pressbook [pressbook-col-the-flying-missile](https://archive.org/details/pressbook-col-the-flying-missile) returned some slightly lower scores.
 
 ```
 TOP 5 TEXTS THAT ARE MOST SIMILAR TO pressbook-col-the-flying-missile_djvu:
@@ -280,8 +280,9 @@ in scenes and exploitation).
 
 FYI - the `_` characters can be replaced back with `/` to form URLs to access the page online:
 
-`lccn_sn91069201_1950-02-04_ed-1_seq-7` -> `/lccn/sn91069201/1950/02/04/ed/1/seq/7` -> [https://chroniclingamerica.loc.gov/lccn/sn91069201/1950-02-04/ed-1/seq-7/]('https://chroniclingamerica.loc.gov/lccn/sn91069201/1950-02-04/ed-1/seq-7/')
+`lccn_sn91069201_1950-02-04_ed-1_seq-7` -> `/lccn/sn91069201/1950/02/04/ed/1/seq/7` -> [https://chroniclingamerica.loc.gov/lccn/sn91069201/1950-02-04/ed-1/seq-7/](https://chroniclingamerica.loc.gov/lccn/sn91069201/1950-02-04/ed-1/seq-7/)
+
 
 And then the IA identifiers can be converted back into URLs just as easily:
 
-`pressbook-col-the-flying-missile` -> [https://archive.org/details/pressbook-col-the-flying-missile]('https://archive.org/details/pressbook-col-the-flying-missile')
+`pressbook-col-the-flying-missile` -> [https://archive.org/details/pressbook-col-the-flying-missile](https://archive.org/details/pressbook-col-the-flying-missile)
